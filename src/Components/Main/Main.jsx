@@ -5,8 +5,18 @@ import { Context } from '../../context/Context'
 
 function Main() {
 
-    const {onSent,recentPromt,showResult,loading,resultData,setInput,Input}=useContext(Context)
-
+    const {
+        recentPrompt,
+        resultData,
+        prevousPromt,
+        setPreviusPrompt,
+        onSent,
+        setRecentPrompt,
+        showResult,
+        loading,
+        Input,
+        setInput,
+    } = useContext(Context);
 
     return (
         <div className='main'>
@@ -15,36 +25,56 @@ function Main() {
                 <img src={assets.user_icon} alt="" />
             </div>
             <div className="main-container">
-                <div className="greet">
-                    <p><span>Hello, Biraj</span></p>
-                    <p>How can i help today</p>
-                </div>
-                <div className="cards">
-                    <div className="card">
-                        <p>Suggest beautiful places to see for upcoming road trip</p>
-                        <img src={assets.compass_icon} alt="" />
+                {!showResult ? <>
+                    <div className="greet">
+                        <p><span>Hello, Biraj</span></p>
+                        <p>How can i help today</p>
                     </div>
-                    <div className="card">
-                        <p>Briefy summarize the concept : urban planning</p>
-                        <img src={assets.bulb_icon} alt="" />
+                    <div className="cards">
+                        <div className="card">
+                            <p>Suggest beautiful places to see for upcoming road trip</p>
+                            <img src={assets.compass_icon} alt="" />
+                        </div>
+                        <div className="card">
+                            <p>Briefy summarize the concept : urban planning</p>
+                            <img src={assets.bulb_icon} alt="" />
+                        </div>
+                        <div className="card">
+                            <p>Brainstorm team bonding acctivites for our work retreet</p>
+                            <img src={assets.message_icon} alt="" />
+                        </div>
+                        <div className="card">
+                            <p>Improve reability of this code</p>
+                            <img src={assets.code_icon} alt="" />
+                        </div>
+                    </div></> : <div className='result'>
+                    <div className="result-title">
+                        <img src={assets.user_icon} alt="" />
+                        <p>{recentPrompt}</p>
                     </div>
-                    <div className="card">
-                        <p>Brainstorm team bonding acctivites for our work retreet</p>
-                        <img src={assets.message_icon} alt="" />
+                    <div className="result-data">
+                        <img src={assets.gemini_icon} alt="" />
+                        {loading ? (  // Show loader only when loading is true
+                            <div className='loader'>
+                                <hr />
+                                <hr />
+                                <hr />
+                            </div>
+                        ) : (
+                            <p dangerouslySetInnerHTML={{ __html: resultData }}></p> // Show response when loading is false
+                        )}
+
+
                     </div>
-                    <div className="card">
-                        <p>Improve reability of this code</p>
-                        <img src={assets.code_icon} alt="" />
-                    </div>
-                </div>
+                </div>}
 
                 <div className="main-bottom">
                     <div className="search-box">
-                        <input type="text" placeholder='Enter a promt here' />
+                        <input onChange={(e) => setInput(e.target.value)} value={Input} on type="text" placeholder='Enter a promt here' />
                         <div>
                             <img src={assets.gallery_icon} alt="" />
                             <img src={assets.mic_icon} alt="" />
-                            <img src={assets.send_icon} alt="" />
+                            {Input?<img onClick={() => onSent()} src={assets.send_icon} alt="" />:null}
                         </div>
                     </div>
                     <p className="bottom-info">

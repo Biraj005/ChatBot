@@ -16,7 +16,7 @@ const generationConfig = {
 };
 
 async function run(prompt) {
-  try {
+  
     const chatSession = model.startChat({
       generationConfig,
       history: [],
@@ -24,9 +24,9 @@ async function run(prompt) {
 
     const result = await chatSession.sendMessage(prompt);
     console.log(await result.response.text());
-  } catch (error) {
-    console.error("Error:", error);
-  }
+  
+
+  return result.response.text();
 }
 
 export default run;
